@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      html,body
+      {
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="../bluebird/js/browser/bluebird.min.js"></script>
+    <script>
+      var tumo =
+      {
+        blackbox:
+        {
+          manifest: {}
+        }
+      };
+
+      (function()
+      {
+        window.addEventListener("message", processMessage);
+
+        function processManifest(manifest)
+        {
+          tumo.blackbox.manifest = manifest;
+
+          return Promise.each(manifest.libs, function(data, index)
+          {
+            return loadScript(data);
+          })
+          .then(function()
+          {
+            return Promise.each(manifest.src, function(data, index)
+            {
+              return loadScript(data);
+            });
+          });
+        }
+
+        var loadScript = function(src)
+        {
+          return new Promise(function(resolve, reject)
+          {
+            var script = document.createElement("script");
+            script.addEventListener("load", function()
+            {
+              resolve();
+            });
+            script.src = src;
+            document.body.appendChild(script);
+          });
+        };
+
+        function processMessage(evt)
+        {
+          if(evt.data.type == "manifest")
+          {
+            processManifest(evt.data.manifest)
+            .then(function()
+            {
+              tumo.blackbox.main();
+            });
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "black-box",
+  "authors": [
+    "hayk.galstyan <hayk.galstyan@tumo.org>"
+  ],
+  "description": "",
+  "main": "black-box.html",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.7.0",
+    "bluebird": "^3.4.6",
+    "jszip": "Stuk/jszip#^3.1.3",
+    "jszip-utils": "Stuk/jszip-utilS#^0.0.2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.1.7",
+    "font-roboto": "PolymerElements/font-roboto#1.0.1"
+  }
+}

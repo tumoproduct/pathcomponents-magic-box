@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <title>BlackBox</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../black-box.html"/>
+    <style>
+    </style>
+  </head>
+  <body>
+    <input type="file" id="file" name="file" /><br />
+
+    <script>
+      window.addEventListener("WebComponentsReady", function(e)
+      {
+        document
+        .querySelector("#file")
+        .addEventListener("change", function(evt)
+        {
+          var file = evt.target.files[0];
+
+          var reader = new FileReader();
+          reader.addEventListener("load", function(evt)
+          {
+            var blob = new Blob
+            (
+              [new Uint8Array(evt.currentTarget.result)]
+            );
+            var url = URL.createObjectURL(blob);
+
+            var box = new BlackBox(url, {});
+            document.body.appendChild(box);
+          });
+
+          reader.readAsArrayBuffer(file);
+        });
+      });
+    </script>
+  </body>
+</html>

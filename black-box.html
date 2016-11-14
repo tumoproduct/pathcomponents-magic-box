@@ -1,0 +1,140 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="black-box">
+  <style>
+    :host
+    {
+      display: block;
+      padding: 0px;
+    }
+
+    :host #content
+    {
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <template>
+    <div id="spinner"></div>
+    <iframe id="content" src="./content.html"></iframe>
+  </template>
+  <script src="../jszip/dist/jszip.min.js"></script>
+  <script src="../jszip-utils/dist/jszip-utils.min.js"></script>
+  <script src="../bluebird/js/browser/bluebird.min.js"></script>
+  <script>
+    var BlackBox = Polymer
+    ({
+      is: "black-box",
+      factoryImpl: function(file, options)
+      {
+        var instance = this;
+
+        JSZipUtils.getBinaryContent(file, function(err, data)
+        {
+          if(err)
+          {
+            throw err;
+          }
+
+          JSZip.loadAsync(data)
+          .then(function(archive)
+          {
+            archive
+            .file("manifest.json")
+            .async("string")
+            .then(function(manifest)
+            {
+              return processManifest(manifest, archive);
+            })
+            .then(function(manifest)
+            {
+              instance.$.content.contentWindow.postMessage
+              (
+                {
+                  type: "manifest",
+                  manifest: manifest
+                },
+                "*"
+              );
+            });
+          });
+
+          function processManifest(manifest, archive)
+          {
+            var manifest = JSON.parse(manifest);
+
+            instance.style.width = manifest.dimension.width + "px";
+            instance.style.height = manifest.dimension.height + "px";
+
+            return processAssets(manifest, archive)
+            .then(function()
+            {
+              return processLibraries(manifest, archive)
+            })
+            .then(function()
+            {
+              return processSource(manifest, archive)
+            })
+            .then(function()
+            {
+              return manifest;
+            });
+          }
+
+          function processAssets(manifest, archive)
+          {
+            var assets = [];
+            for(var index in manifest.assets)
+            {
+              assets.push(index);
+            }
+
+            return Promise.each(assets, function(index)
+            {
+              return initManifestResource(manifest.assets, index, archive);
+            });
+          }
+
+          function processLibraries(manifest, archive)
+          {
+            return Promise.each(manifest.libs, function(data, index)
+            {
+              return initManifestResource(manifest.libs, index, archive);
+            });
+          }
+
+          function processSource(manifest, archive)
+          {
+            return Promise.each(manifest.src, function(data, index)
+            {
+              return initManifestResource(manifest.src, index, archive);
+            });
+          }
+
+          function initManifestResource(path, index, archive)
+          {
+            return archive
+            .file(path[index])
+            .async("uint8array")
+            .then(function(content)
+            {
+              path[index] = getAssetURL(content);
+            });
+          }
+        });
+      }
+    });
+
+    function getAssetURL(file, type)
+    {
+      var blob = new Blob
+      (
+        [new Uint8Array(file)],
+        {type: type}
+      );
+      var url = URL.createObjectURL(blob);
+      return url;
+    }
+  </script>
+</dom-module>
