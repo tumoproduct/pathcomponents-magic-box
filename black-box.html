@@ -70,6 +70,10 @@
             return processAssets(manifest, archive)
             .then(function()
             {
+              return processCss(manifest, archive)
+            })
+            .then(function()
+            {
               return processLibraries(manifest, archive)
             })
             .then(function()
@@ -93,6 +97,14 @@
             return Promise.each(assets, function(index)
             {
               return initManifestResource(manifest.assets, index, archive);
+            });
+          }
+
+          function processCss(manifest, archive)
+          {
+            return Promise.each(manifest.css, function(data, index)
+            {
+              return initManifestResource(manifest.css, index, archive);
             });
           }
 

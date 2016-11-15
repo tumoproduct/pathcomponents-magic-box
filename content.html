@@ -11,13 +11,15 @@
     </style>
   </head>
   <body>
+    <div id="container"></div>
     <script src="../bluebird/js/browser/bluebird.min.js"></script>
     <script>
       var tumo =
       {
         blackbox:
         {
-          manifest: {}
+          manifest: {},
+          container: document.querySelector("#container")
         }
       };
 
@@ -28,6 +30,14 @@
         function processManifest(manifest)
         {
           tumo.blackbox.manifest = manifest;
+
+          for(var i = 0; i < manifest.css.length; ++i)
+          {
+            var css = document.createElement("link");
+            css.href = manifest.css[i];
+            css.rel = "stylesheet";
+            document.head.appendChild(css);
+          }
 
           return Promise.each(manifest.libs, function(data, index)
           {
