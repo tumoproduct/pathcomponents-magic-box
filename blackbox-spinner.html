@@ -1,0 +1,233 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="blackbox-spinner">
+  <template>
+    <style>
+      :host #cube-container
+      {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        transform: rotateX(-45deg);
+        -webkit-transform: rotateX(-45deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+        margin: auto;
+        display: block;
+      }
+
+      :host #cube
+      {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: rotateY(0deg);
+        -webkit-transform: rotateY(0deg);
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+        animation: rotate 3s infinite forwards;
+        -webkit-animation: rotate 3s infinite forwards;
+      }
+
+      :host .face
+      {
+        width: 20px;
+        height: 20px;
+        box-shadow: inset 0 0 0 1px #999, 0 0 1px 1px #333;
+        position: absolute;
+      }
+
+      :host .face.front
+      {
+        transform: translate3d(0, 0, 10px);
+        -webkit-transform: translate3d(0, 0, 10px);
+        animation: color 3s infinite forwards, front-pop 3s infinite forwards;
+        -webkit-animation: color 3s infinite forwards, front-pop 3s infinite forwards;
+        background-color: #faa61b;
+      }
+
+      :host .face.back
+      {
+        transform: translate3d(0, 0, -10px);
+        -webkit-transform: translate3d(0, 0, -10px);
+        animation: color 3s infinite forwards, back-pop 3s infinite forwards;
+        -webkit-animation: color 3s infinite forwards, back-pop 3s infinite forwards;
+        background-color: #8dc641;
+      }
+
+      :host .face.left
+      {
+        transform: rotateY(90deg) translate3d(0, 0, 10px);
+        -webkit-transform: rotateY(90deg) translate3d(0, 0px, 10px);
+        animation: color 3s infinite forwards, left-pop 3s infinite forwards;
+        -webkit-animation: color 3s infinite forwards, left-pop 3s infinite forwards;
+        background-color: #4e87c6;
+      }
+
+      :host .face.right
+      {
+        transform: rotateY(-90deg) translate3d(0, 0, 10px);
+        -webkit-transform: rotateY(-90deg) translate3d(0, 0px, 10px);
+        animation: color 3s infinite forwards, right-pop 3s infinite forwards;
+        -webkit-animation: color 3s infinite forwards, right-pop 3s infinite forwards;
+        background-color: #f1592b;
+      }
+
+      :host .face.top
+      {
+        transform: rotateX(90deg) translate3d(0, 0, 10px);
+        -webkit-transform: rotateX(90deg) translate3d(0, 0px, 10px);
+        animation: color 3s infinite forwards, top-pop 3s infinite forwards;
+        -webkit-animation: color 3s infinite forwards, top-pop 3s infinite forwards;
+        background-color: #1baebe;
+      }
+
+      :host .face.bottom
+      {
+        transform: rotateX(-90deg) translate3d(0, 0, 10px);
+        -webkit-transform: rotateX(-90deg) translate3d(0, 0px, 10px);
+        animation: color 3s infinite forwards, bottom-pop 3s infinite forwards;
+        -webkit-animation: color 3s infinite forwards, bottom-pop 3s infinite forwards;
+        background-color: #bf83b9;
+      }
+
+      @keyframes rotate
+      {
+        0% { -webkit-transform: rotateY(0deg); }
+        50% { -webkit-transform: rotateY(135deg); }
+        75% { -webkit-transform: rotateY(345deg); }
+        100% { -webkit-transform: rotateY(360deg); }
+      }
+
+      @-webkit-keyframes rotate
+      {
+        0% { -webkit-transform: rotateY(0deg); }
+        50% { -webkit-transform: rotateY(135deg); }
+        75% { -webkit-transform: rotateY(345deg); }
+        100% { -webkit-transform: rotateY(360deg); }
+      }
+
+      @keyframes color
+      {
+        0% { -webkit-filter: brightness(0%); }
+        25% { -webkit-filter: brightness(0%); }
+        40% { -webkit-filter: brightness(100%); }
+        75% { -webkit-filter: brightness(100%); }
+        100% { -webkit-filter: brightness(0%); }
+      }
+
+      @-webkit-keyframes color
+      {
+        0% { -webkit-filter: brightness(0%); }
+        25% { -webkit-filter: brightness(0%); }
+        40% { -webkit-filter: brightness(100%); }
+        75% { -webkit-filter: brightness(100%); }
+        100% { -webkit-filter: brightness(0%); }
+      }
+
+      @keyframes top-pop
+      {
+        30% { -webkit-transform: rotateX(90deg) translate3d(0, 0px, 10px); }
+        50% { -webkit-transform: rotateX(90deg) translate3d(0, 0px, 20px); }
+        100% { -webkit-transform: rotateX(90deg) translate3d(0, 0px, 10px); }
+      }
+
+      @-webkit-keyframes top-pop
+      {
+        30% { -webkit-transform: rotateX(90deg) translate3d(0, 0px, 10px); }
+        50% { -webkit-transform: rotateX(90deg) translate3d(0, 0px, 20px); }
+        100% { -webkit-transform: rotateX(90deg) translate3d(0, 0px, 10px); }
+      }
+
+      @keyframes bottom-pop
+      {
+        30% { -webkit-transform: rotateX(-90deg) translate3d(0, 0, 10px); }
+        50% { -webkit-transform: rotateX(-90deg) translate3d(0, 0, 20px); }
+        100% { -webkit-transform: rotateX(-90deg) translate3d(0, 0, 10px); }
+      }
+
+      @-webkit-keyframes bottom-pop
+      {
+        30% { -webkit-transform: rotateX(-90deg) translate3d(0, 0, 10px); }
+        50% { -webkit-transform: rotateX(-90deg) translate3d(0, 0, 20px); }
+        100% { -webkit-transform: rotateX(-90deg) translate3d(0, 0, 10px); }
+      }
+
+      @keyframes right-pop
+      {
+        34% { -webkit-transform: rotateY(-90deg) translate3d(0, 0, 10px); }
+        54% { -webkit-transform: rotateY(-90deg) translate3d(0, 0, 20px); }
+        100% { -webkit-transform: rotateY(-90deg) translate3d(0, 0, 10px); }
+      }
+
+      @-webkit-keyframes right-pop
+      {
+        34% { -webkit-transform: rotateY(-90deg) translate3d(0, 0, 10px); }
+        54% { -webkit-transform: rotateY(-90deg) translate3d(0, 0, 20px); }
+        100% { -webkit-transform: rotateY(-90deg) translate3d(0, 0, 10px); }
+      }
+
+      @keyframes left-pop
+      {
+        34% { -webkit-transform: rotateY(90deg) translate3d(0, 0, 10px); }
+        54% { -webkit-transform: rotateY(90deg) translate3d(0, 0, 20px); }
+        100% { -webkit-transform: rotateY(90deg) translate3d(0, 0, 10px); }
+      }
+
+      @-webkit-keyframes left-pop
+      {
+        34% { -webkit-transform: rotateY(90deg) translate3d(0, 0, 10px); }
+        54% { -webkit-transform: rotateY(90deg) translate3d(0, 0, 20px); }
+        100% { -webkit-transform: rotateY(90deg) translate3d(0, 0, 10px); }
+      }
+
+      @keyframes front-pop
+      {
+        42% { -webkit-transform: translate3d(0, 0, 10px); }
+        62% { -webkit-transform: translate3d(0, 0, 20px); }
+        100% { -webkit-transform: translate3d(0, 0, 10px); }
+      }
+
+      @-webkit-keyframes front-pop
+      {
+        42% { -webkit-transform: translate3d(0, 0, 10px); }
+        62% { -webkit-transform: translate3d(0, 0, 20px); }
+        100% { -webkit-transform: translate3d(0, 0, 10px); }
+      }
+
+      @keyframes back-pop
+      {
+        42% { -webkit-transform: translate3d(0, 0, -10px); }
+        62% { -webkit-transform: translate3d(0, 0, -20px); }
+        100% { -webkit-transform: translate3d(0, 0, -10px); }
+      }
+
+      @-webkit-keyframes back-pop
+      {
+        42% { -webkit-transform: translate3d(0, 0, -10px); }
+        62% { -webkit-transform: translate3d(0, 0, -20px); }
+        100% { -webkit-transform: translate3d(0, 0, -10px); }
+      }
+    </style>
+    <div id="cube-container">
+      <div id="cube">
+        <div class="face bottom"></div>
+        <div class="face front"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+        <div class="face back"></div>
+        <div class="face top"></div>
+      </div>
+    </div>
+  </template>
+  <script>
+    Polymer
+    ({
+      is: "blackbox-spinner"
+    });
+  </script>
+</dom-module>

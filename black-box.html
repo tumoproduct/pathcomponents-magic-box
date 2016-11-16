@@ -1,23 +1,34 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="blackbox-spinner.html">
 
 <dom-module id="black-box">
-  <style>
-    :host
-    {
-      display: block;
-      padding: 0px;
-    }
-
-    :host #content
-    {
-      border: none;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
   <template>
-    <div id="spinner"></div>
-    <iframe id="content" src="./content.html"></iframe>
+    <style>
+      :host
+      {
+        display: block;
+        padding: 0px;
+        position: relative;
+        width: 200px;
+        height: 150px;
+        border: solid 1px #ccc;
+        border-radius: 5px;
+      }
+
+      :host #content
+      {
+        border: none;
+        width: 100%;
+        height: 100%;
+      }
+
+      :host #content.hidden
+      {
+        visibility: hidden;
+      }
+    </style>
+    <blackbox-spinner id="spinner"></blackbox-spinner>
+    <iframe class="hidden" id="content" src="./content.html"></iframe>
   </template>
   <script src="../jszip/dist/jszip.min.js"></script>
   <script src="../jszip-utils/dist/jszip-utils.min.js"></script>
@@ -26,9 +37,10 @@
     var BlackBox = Polymer
     ({
       is: "black-box",
-      factoryImpl: function(file, options)
+      load: function(file)
       {
         var instance = this;
+        var content = instance.$.content;
 
         JSZipUtils.getBinaryContent(file, function(err, data)
         {
@@ -49,7 +61,7 @@
             })
             .then(function(manifest)
             {
-              instance.$.content.contentWindow.postMessage
+              content.contentWindow.postMessage
               (
                 {
                   type: "manifest",
@@ -57,8 +69,22 @@
                 },
                 "*"
               );
+
+              window.addEventListener("message", processMessage);
             });
           });
+
+          function processMessage(evt)
+          {
+            switch(evt.data.type)
+            {
+              case "loaded":
+              {
+                instance.$.spinner.remove();
+                content.classList.remove("hidden");
+              }
+            }
+          }
 
           function processManifest(manifest, archive)
           {
