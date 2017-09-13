@@ -1,20 +1,22 @@
 {
-  "name": "black-box",
+  "name": "magic-box",
   "version": "1.0.0",
-  "main": "black-box.html",
-  "repository": "http://git.tumo.lab/pathcomponents/black-box.git",
+  "main": "magic-box.html",
   "author": "Hayk Galstyan <hayk.galstyan@tumo.org>",
   "license": "MIT",
+  "scripts": {
+    "polyserve": "node node_modules/polyserve/bin/polyserve -c node_modules -n magic-box"
+  },
   "dependencies": {
-    "@polymer/polymer": "^1.2.5-npm-test.2",
     "bluebird": "^3.4.7",
     "jszip": "^3.1.3",
-    "jszip-utils": "^0.0.2"
+    "jszip-utils": "^0.0.2",
+    "polymer": "https://github.com/Polymer/polymer.git#1.9.3"
   },
   "devDependencies": {
-    "@polymer/font-roboto": "^0.0.3",
     "@polymer/iron-component-page": "^0.0.3",
     "dropzone": "^4.3.0",
+    "polyserve": "^0.20.0",
     "webcomponents-lite": "^0.6.0"
   }
 }

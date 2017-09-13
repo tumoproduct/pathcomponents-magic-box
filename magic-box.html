@@ -1,7 +1,7 @@
 <link rel="import" href="../@polymer/polymer/polymer.html">
-<link rel="import" href="blackbox-spinner.html">
+<link rel="import" href="magic-box-spinner.html">
 
-<dom-module id="black-box">
+<dom-module id="magic-box">
   <template>
     <style>
       :host
@@ -27,16 +27,16 @@
         visibility: hidden;
       }
     </style>
-    <blackbox-spinner id="spinner"></blackbox-spinner>
+    <magic-box-spinner id="spinner"></magic-box-spinner>
     <iframe class="hidden" id="content" src="./content.html"></iframe>
   </template>
   <script src="../jszip/dist/jszip.min.js"></script>
   <script src="../jszip-utils/dist/jszip-utils.min.js"></script>
   <script src="../bluebird/js/browser/bluebird.min.js"></script>
   <script>
-    var BlackBox = Polymer
+    var MagicBox = Polymer
     ({
-      is: "black-box",
+      is: "magic-box",
       load: function(file)
       {
         var instance = this;

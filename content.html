@@ -21,22 +21,19 @@
     <div id="container"></div>
     <script src="../bluebird/js/browser/bluebird.min.js"></script>
     <script>
-      var tumo =
+      (function()
       {
-        blackbox:
+        var detail =
         {
           manifest: {},
           container: document.querySelector("#container")
-        }
-      };
+        };
 
-      (function()
-      {
         window.addEventListener("message", processMessage);
 
         function processManifest(manifest)
         {
-          tumo.blackbox.manifest = manifest;
+          detail.manifest = manifest;
 
           for(var i = 0; i < manifest.css.length; ++i)
           {
@@ -80,7 +77,7 @@
             processManifest(evt.data.manifest)
             .then(function()
             {
-              tumo.blackbox.main();
+              document.dispatchEvent(new CustomEvent("magicbox.init",{detail:detail}));
             });
           }
         }
