@@ -45,3 +45,16 @@ Magic Boxes need to strictly adhere to the following conventions for the package
 ### Building
 
 To build the your `magic box`, run the included `build` script with the `--path` option as the __path__ to your project. This will create a `zip` file in a __build__ directory in the root of your project. The name of the `zip` file will be name of the package found in either a `package.json`,`bower.json`, or `build`, with the current `date-time` as the suffix. To override this behavior, provide a `--name` option.
+
+### Demos and Template
+To try out built magic boxes:  
+1. run `yarn run polyserve` and then point your browser to the address printed on the terminal followed by `/demo` e.g. `http://127.0.0.1:8081/components/magic-box/demo`
+2. either drag and drop a file into the loader or click on the loader to select a file
+
+#### Astray Demo
+There's a demo provided in the `astray` folder, a game adapted from https://github.com/wwwtyro/Astray. You can run it two ways:
+1. run a simple `HTTP` server from the folder, e.g. `npm`'s `http-server`
+2. `build` the game and drag and drop it on the `magic box` loader
+
+#### Template
+There's a template provided in the `template` folder which has enough to get you started. Don't forget to add all of the required assets in the `manifest`.
