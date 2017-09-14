@@ -1,0 +1,11 @@
+{
+  "dimension":
+  {
+  	"width": 200,
+  	"height": 200
+  },
+  "src":
+  [
+	  "main.js"
+  ]
+}
