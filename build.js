@@ -134,10 +134,19 @@ fs.readFile("manifest.json", function(err, data)
 
   _spinner = ora("minifying scripts").start();
 
+  var jsminified = UglifyJS.minify
+  (
+    scripts,
+    {
+      mangle: true,
+      compress : true
+    }
+  ).code.replace("\"use strict\";", "");
+
   // minify scripts
   zip.file
   (
-    "main.js", UglifyJS.minify(scripts).code
+    "main.js", jsminified
   );
 
   _spinner.succeed();
