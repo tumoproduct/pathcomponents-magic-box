@@ -5,12 +5,13 @@ A magic box which loads `HTML5` games packaged in `zip` files.
 ### Conventions
 Magic Boxes need to strictly adhere to the following conventions for the package builder to work correctly.
 
-- The package must contain a `js` file as the entrypoint which adds an event handler on the document `magicbox.init` event
+- The package must contain a `js` file as the entry point which should add an event handler on the document `magicbox.init` event. This event is fired when the `manifest` has been initialised.
 
-    The `magicbox.init` event has three objects in the `detail` property:  
+    The `magicbox.init` event has four objects in the `detail` property:  
     1. `manifest` the initialised manifest
     2. `container` the `root` `DOM` element
-    3. `data` data saved by the user the previous time they used the game  
+    3. `data` data saved by the user which can be used to reload the previous state
+    4. `ready` the function to call when the `magic box` is ready
 
 
 - The `DOM` of the game needs to be constructed at runtime, as all `js` files are injected into the host `iframe` at runtime, including the main `js`
@@ -27,9 +28,8 @@ Magic Boxes need to strictly adhere to the following conventions for the package
     {
       "width": 520,
       "height": 380
-    }  
-```  
-
+    }
+```
 - the `manifest` must include a `src` field specifying the main source to load. They will be loaded in the order specified so the `main` script should come last.
 - the `manifest` can include a `css` field. The `css` assets will be loaded before the `src` assets.
 - the `manifest` can include a `libs` field which specifies a list of `js` libraries to use, these will be loaded before the `src` assets.
