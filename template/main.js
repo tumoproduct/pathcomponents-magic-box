@@ -7,4 +7,6 @@ document.addEventListener("magicbox.init", function(e)
 	p.innerText = "Hello World";
 
 	container.appendChild(p);
+
+	e.detail.ready();
 });

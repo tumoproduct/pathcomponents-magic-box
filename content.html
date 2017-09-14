@@ -26,7 +26,21 @@
         var detail =
         {
           manifest: {},
-          container: document.querySelector("#container")
+          container: document.querySelector("#container"),
+          data:{},
+          ready: function()
+          {
+            if(window.location != window.parent.location)
+            {
+              window.parent.postMessage
+              (
+                {
+                  type: "loaded",
+                },
+                "*"
+              );
+            }
+          }
         };
 
         window.addEventListener("message", processMessage);
