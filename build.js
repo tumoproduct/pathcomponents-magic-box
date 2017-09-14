@@ -168,6 +168,11 @@ fs.readFile("manifest.json", function(err, data)
 
     zip.file("manifest.json", JSON.stringify(manifest));
 
+    if(!fs.existsSync('build'))
+    {
+      fs.mkdirSync('build');
+    }
+
     zip
     .generateNodeStream
     ({
@@ -210,7 +215,7 @@ fs.readFile("manifest.json", function(err, data)
     {
       return argv.name
     }
-    
+
     if(fs.existsSync("package.json"))
     {
       var pkg = fs.readFileSync("package.json");
