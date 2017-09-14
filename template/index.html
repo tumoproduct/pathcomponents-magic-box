@@ -73,7 +73,21 @@
             var detail =
 						{
 							manifest: manifest,
-							container: document.querySelector("#container")
+							container: document.querySelector("#container"),
+              data: {},
+              ready: function()
+              {
+                if(window.location != window.parent.location)
+                {
+                  window.parent.postMessage
+                  (
+                    {
+                      type: "loaded",
+                    },
+                    "*"
+                  );
+                }
+              }
 						};
 
 						document.dispatchEvent(new CustomEvent("magicbox.init",{detail:detail}));
