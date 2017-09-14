@@ -1,0 +1,29 @@
+{
+  "dimension":
+  {
+  	"width": 500,
+  	"height": 500
+  },
+  "libs":
+  [
+      "lib/Box2dWeb.min.js"
+    , "lib/Three.js"
+    , "lib/jquery.js"
+  ],
+  "css":
+  [
+      "main.css"
+  ],
+  "src":
+  [
+      "src/keyboard.js"
+	  , "src/maze.js"
+    , "main.js"
+  ],
+  "assets":
+  {
+      "ball": "assets/ball.png"
+    , "brick": "assets/brick.png"
+    , "concrete": "assets/concrete.png"
+  }
+}

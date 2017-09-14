@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      html,body
+      {
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+      }
+
+      #container
+      {
+        margin: auto;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script src="node_modules/bluebird/js/browser/bluebird.min.js"></script>
+    <script>
+      (function()
+      {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function()
+        {
+          if (httpRequest.readyState === 4)
+          {
+            if (httpRequest.status === 200)
+            {
+              var data = JSON.parse(httpRequest.responseText);
+              processManifest(data);
+            }
+          }
+        };
+        httpRequest.open('GET', "manifest.json");
+        httpRequest.send();
+
+        function processManifest(manifest)
+        {
+          container.style.width = manifest.dimension.width + "px";
+          container.style.height = manifest.dimension.height + "px";
+
+          manifest.css = manifest.css || [];
+          manifest.libs = manifest.libs || [];
+
+          for(var i = 0; i < manifest.css.length; ++i)
+          {
+            var css = document.createElement("link");
+            css.href = manifest.css[i];
+            css.rel = "stylesheet";
+            document.head.appendChild(css);
+          }
+
+          return Promise.each(manifest.libs, function(data, index)
+          {
+            return loadScript(data);
+          })
+          .then(function()
+          {
+            return Promise.each(manifest.src, function(data, index)
+            {
+              return loadScript(data);
+            });
+          })
+          .then(function()
+          {
+            var detail =
+						{
+							manifest: manifest,
+							container: document.querySelector("#container"),
+              data: {},
+              ready: function()
+              {
+                if(window.location != window.parent.location)
+                {
+                  window.parent.postMessage
+                  (
+                    {
+                      type: "loaded",
+                    },
+                    "*"
+                  );
+                }
+              }
+						};
+
+						document.dispatchEvent(new CustomEvent("magicbox.init",{detail:detail}));
+          });
+        }
+
+        var loadScript = function(src)
+        {
+          return new Promise(function(resolve, reject)
+          {
+            var script = document.createElement("script");
+            script.addEventListener("load", function()
+            {
+              resolve();
+            });
+            script.src = src;
+            document.body.appendChild(script);
+          });
+        };
+      })();
+    </script>
+  </body>
+</html>
