@@ -19,12 +19,14 @@ console.log
 
 `)
 
+// check for path param
 if(!argv.path)
 {
   console.log(`${chalk.red("Error:")} please specify a project with the ${chalk.yellow("--path")} option`);
   process.exit();
 }
 
+// try accessing path
 try
 {
   process.chdir(argv.path);
@@ -37,6 +39,7 @@ catch(err)
 
 var _spinner = ora("loading manifest").start();
 
+// read manifest
 fs.readFile("manifest.json", function(err, data)
 {
   if(err)
@@ -45,6 +48,7 @@ fs.readFile("manifest.json", function(err, data)
     process.exit();
   }
 
+  // parse manifest
   try
   {
     var manifest = JSON.parse(data);
@@ -56,12 +60,14 @@ fs.readFile("manifest.json", function(err, data)
     process.exit();
   }
 
+  // check for existence of src
   if(typeof manifest.src == "undefined")
   {
     _spinner.fail(`${chalk.red("Error:")} you must include a ${chalk.yellow("src")} field`);
     process.exit();
   }
 
+  // check src contains at least one element
   if(manifest.src.length == 0)
   {
     _spinner.fail(`${chalk.red("Error:")} you must include at least one ${chalk.yellow("src")} as the entry point`);
@@ -76,6 +82,7 @@ fs.readFile("manifest.json", function(err, data)
 
   _spinner = ora("processing libs").start();
 
+  // add libs to scripts
   if(typeof manifest.libs != "undefined")
   {
     for(var i = 0; i < manifest.libs.length; ++i)
@@ -88,6 +95,7 @@ fs.readFile("manifest.json", function(err, data)
 
   _spinner = ora("processing css").start();
 
+  // add css files
   if(typeof manifest.css != "undefined")
   {
     for(var i = 0; i < manifest.css.length; ++i)
@@ -101,6 +109,7 @@ fs.readFile("manifest.json", function(err, data)
 
   _spinner.succeed();
 
+  // add src to scripts
   for(var i = 0; i < manifest.src.length; ++i)
   {
     scripts[manifest.src[i]] = fs.readFileSync(manifest.src[i], 'utf8');
@@ -108,6 +117,7 @@ fs.readFile("manifest.json", function(err, data)
 
   _spinner = ora("processing assets").start();
 
+  // add assets to zip
   if(typeof manifest.assets != "undefined")
   {
     for(var i in manifest.assets)
@@ -124,6 +134,7 @@ fs.readFile("manifest.json", function(err, data)
 
   _spinner = ora("minifying scripts").start();
 
+  // minify scripts
   zip.file
   (
     "main.js", UglifyJS.minify(scripts).code
@@ -133,6 +144,7 @@ fs.readFile("manifest.json", function(err, data)
 
   _spinner = ora("minifying css").start();
 
+  // minify css
   var maincss = "";
   for(var i = 0; i < css.length; ++i)
   {
@@ -141,6 +153,7 @@ fs.readFile("manifest.json", function(err, data)
 
   var imports = [];
 
+  // find imports
   maincss = maincss.replace
   (
     /@import url\((.+?)\);/ig, function(wmatch, match)
@@ -150,16 +163,19 @@ fs.readFile("manifest.json", function(err, data)
     }
   );
 
+  // move imports to beginning of css
   var cssheader = "";
   for(var i = 0; i < imports.length; ++i)
   {
     cssheader += "@import url(" + imports[i] + ");\n";
   }
 
+  // add css to zip
   zip.file("main.css", cssheader + maincss);
 
   _spinner.succeed();
 
+  // export zip
   exportZip();
 
   function exportZip()
@@ -168,11 +184,13 @@ fs.readFile("manifest.json", function(err, data)
 
     zip.file("manifest.json", JSON.stringify(manifest));
 
+    // create build folder if not exist
     if(!fs.existsSync('build'))
     {
       fs.mkdirSync('build');
     }
 
+    // write zip
     zip
     .generateNodeStream
     ({
