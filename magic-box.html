@@ -83,6 +83,11 @@
                 instance.$.spinner.remove();
                 content.classList.remove("hidden");
               }
+
+              case "save":
+              {
+                instance.fire("save",evt.data.data);
+              }
             }
           }
 

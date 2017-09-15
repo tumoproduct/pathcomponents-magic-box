@@ -30,16 +30,11 @@
           data:{},
           ready: function()
           {
-            if(window.location != window.parent.location)
-            {
-              window.parent.postMessage
-              (
-                {
-                  type: "loaded",
-                },
-                "*"
-              );
-            }
+            postMessage({type: "loaded"});
+          },
+          save: function(data)
+          {
+            postMessage({type: "save", data:data});
           }
         };
 
@@ -93,6 +88,18 @@
             {
               document.dispatchEvent(new CustomEvent("magicbox.init",{detail:detail}));
             });
+          }
+        }
+
+        function postMessage(data)
+        {
+          if(window.location != window.parent.location)
+          {
+            window.parent.postMessage
+            (
+              data,
+              "*"
+            );
           }
         }
       })();
