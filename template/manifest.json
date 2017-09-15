@@ -1,11 +1,19 @@
 {
   "dimension":
   {
-  	"width": 200,
-  	"height": 200
+  	"width": 500,
+  	"height": 500
   },
   "src":
   [
 	  "main.js"
-  ]
+  ],
+  "css":
+  [
+    "main.css"
+  ],
+  "assets":
+  {
+    "spinner": "assets/spinner.gif"
+  }
 }

@@ -1,0 +1,31 @@
+#spinner
+{
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  background-color: #141414;
+  background-position: 50%;
+  background-size: 25%;
+  background-repeat: no-repeat;
+}
+
+#save
+{
+  color: #fff;
+  width: 200px;
+  height: 25px;
+  text-align: center;
+  border: solid 2px #fff;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 20px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
