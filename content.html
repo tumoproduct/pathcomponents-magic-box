@@ -93,14 +93,11 @@
 
         function postMessage(data)
         {
-          if(window.location != window.parent.location)
-          {
-            window.parent.postMessage
-            (
-              data,
-              "*"
-            );
-          }
+					window.postMessage
+					(
+						data,
+						"*"
+					);
         }
       })();
     </script>
