@@ -9,15 +9,18 @@
   },
   "dependencies": {
     "bluebird": "^3.4.7",
+    "dear-sir-or-madam": "https://github.com/HaykoKoryun/dear-sir-or-madam.git",
     "polymer": "https://github.com/Polymer/polymer.git#1.9.3"
   },
   "devDependencies": {
     "@polymer/iron-component-page": "^0.0.3",
+    "ace-builds": "^1.2.8",
     "base64-img": "^1.0.3",
     "chalk": "^2.1.0",
     "csso": "^3.2.0",
     "draftlog": "^1.0.12",
     "dropzone": "^4.3.0",
+    "jquery": "^3.2.1",
     "jszip": "^3.1.4",
     "jszip-utils": "^0.0.2",
     "moment": "^2.18.1",

@@ -9,6 +9,10 @@ document.addEventListener("magicbox.init", function(e)
 	spinner.id = "spinner";
 	spinner.style.backgroundImage = "url(" + manifest.assets["spinner"] + ")";
 
+	var number = document.createElement("div");
+	number.id = "number";
+	number.innerText = data.number;
+
 	var saveButton = document.createElement("div");
 	saveButton.id = "save";
 	saveButton.innerText = "SAVE";
@@ -19,6 +23,7 @@ document.addEventListener("magicbox.init", function(e)
 
 	container.appendChild(spinner);
 	container.appendChild(saveButton);
+	container.appendChild(number);
 
 	e.detail.ready();
 });

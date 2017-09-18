@@ -37,9 +37,11 @@
     var MagicBox = Polymer
     ({
       is: "magic-box",
-      load: function(file)
+      load: function(file, config)
       {
         var instance = this;
+        var resources = [];
+
         var content = instance.$.content;
 
         JSZipUtils.getBinaryContent(file, function(err, data)
@@ -65,7 +67,8 @@
               (
                 {
                   type: "manifest",
-                  manifest: manifest
+                  manifest: manifest,
+                  data: config
                 },
                 "*"
               );
@@ -162,10 +165,25 @@
             .async("uint8array")
             .then(function(content)
             {
-              path[index] = getAssetURL(content);
+              var url = getAssetURL(content);
+              path[index] = url;
+              resources.push(url);
             });
           }
+
+          instance._cleanup = function()
+          {
+            for(var i = 0; i < resources.length; ++i)
+            {
+              URL.revokeObjectURL(resources[i]);
+            }
+          }
         });
+      },
+      close: function()
+      {
+        var instance = this;
+        instance._cleanup();
       }
     });
 

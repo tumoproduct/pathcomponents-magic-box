@@ -86,6 +86,8 @@
             processManifest(evt.data.manifest)
             .then(function()
             {
+              detail.data = evt.data.data;
+              
               document.dispatchEvent(new CustomEvent("magicbox.init",{detail:detail}));
             });
           }

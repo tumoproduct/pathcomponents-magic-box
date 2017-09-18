@@ -6,9 +6,8 @@
     <script src="../../webcomponents-lite/webcomponents-lite.js"></script>
 
     <link rel="import" href="../magic-box.html"/>
-    <link rel="import" href="../../@polymer/font-roboto/roboto.html"/>
 
-    <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
+    <link rel="import" href="../../@polymer/font-roboto/roboto.html"/>
 
     <style>
       h1
@@ -47,17 +46,58 @@
         top: 0px;
         bottom: 0px;
       }
+
+      #magic-box-container
+      {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 60%;
+        bottom: 0px;
+        margin: auto;
+      }
+
+      #data
+      {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        width: 40%;
+        bottom: 0px;
+        padding: 50px 0px;
+        margin: auto;
+      }
+
+      #editor
+      {
+        position: absolute;
+        top: 100px;
+        right: 20px;
+        bottom: 100px;
+        left: 0px;
+        margin: auto;
+      }
     </style>
   </head>
   <body>
     <div id="bg"></div>
     <h1>Magic Box</h1>
+    <div id="magic-box-container"></div>
+    <div id="data">
+      <div id="editor">{
+}</div>
+    </div>
+    <script src="../../jquery/dist/jquery.min.js"></script>
+    <script src="../../ace-builds/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="../../dropzone/dist/dropzone.js"></script>
     <script>
       window.addEventListener("WebComponentsReady", function(e)
       {
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/json")
         var box = new MagicBox();
-        document.body.appendChild(box);
+        document.querySelector("#magic-box-container").appendChild(box);
 
         var _dropzone = new Dropzone
         (
@@ -76,7 +116,7 @@
                   [new Uint8Array(evt.currentTarget.result)]
                 );
                 var url = URL.createObjectURL(blob);
-                box.load(url);
+                box.load(url, JSON.parse(editor.getValue()));
               });
 
               reader.readAsArrayBuffer(file);
