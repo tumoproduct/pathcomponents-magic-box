@@ -82,12 +82,12 @@
               {
                 instance.$.spinner.remove();
                 content.classList.remove("hidden");
-              }
+              } break;
 
               case "save":
               {
-                instance.fire("save",evt.data.data);
-              }
+                instance.fire("save",evt.data.data, {bubbles:false});
+              } break;
             }
           }
 
