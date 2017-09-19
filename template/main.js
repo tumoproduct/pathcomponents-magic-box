@@ -9,16 +9,16 @@ document.addEventListener("magicbox.init", function(e)
 	spinner.id = "spinner";
 	spinner.style.backgroundImage = "url(" + manifest.assets["spinner"] + ")";
 
-	var number = document.createElement("div");
+	var number = document.createElement("input");
 	number.id = "number";
-	number.innerText = data.number;
+	number.value = data.number || Math.round(Math.random() * 100);
 
 	var saveButton = document.createElement("div");
 	saveButton.id = "save";
 	saveButton.innerText = "SAVE";
 	saveButton.addEventListener("click", function()
 	{
-		save(Math.round(Math.random() * 100));
+		save({number: parseInt(number.value)});
 	});
 
 	container.appendChild(spinner);

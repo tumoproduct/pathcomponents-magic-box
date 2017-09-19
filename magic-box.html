@@ -11,8 +11,6 @@
         position: relative;
         width: 200px;
         height: 150px;
-        border: solid 1px #ccc;
-        border-radius: 5px;
       }
 
       :host #content
@@ -25,6 +23,11 @@
       :host #content.hidden
       {
         visibility: hidden;
+      }
+
+      :host #spinner
+      {
+        pointer-events: none;
       }
     </style>
     <magic-box-spinner id="spinner"></magic-box-spinner>

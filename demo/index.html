@@ -12,11 +12,11 @@
     <style>
       h1
       {
-        font-family: 'Rock Salt', cursive;
+        font-family: 'Fredoka One', cursive;
         position: relative;
         text-align: center;
-        font-size: 40px;
-        color: #000;
+        font-size: 50px;
+        color: #fff;
       }
 
       magic-box
@@ -64,16 +64,15 @@
         right: 0px;
         width: 40%;
         bottom: 0px;
-        padding: 50px 0px;
         margin: auto;
       }
 
       #editor
       {
         position: absolute;
-        top: 100px;
+        top: 150px;
         right: 20px;
-        bottom: 100px;
+        bottom: 150px;
         left: 0px;
         margin: auto;
       }
@@ -90,12 +89,24 @@
     <script src="../../jquery/dist/jquery.min.js"></script>
     <script src="../../ace-builds/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="../../dropzone/dist/dropzone.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
     <script>
       window.addEventListener("WebComponentsReady", function(e)
       {
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
-        editor.getSession().setMode("ace/mode/json")
+        editor.getSession().setMode("ace/mode/json");
+
+        editor.on("change", function()
+        {
+          localStorage.setItem("magic-box:data", editor.getValue());
+        });
+
+        if(localStorage.getItem("magic-box:data"))
+        {
+          editor.setValue(localStorage.getItem("magic-box:data"));
+        }
+
         var box = new MagicBox();
         document.querySelector("#magic-box-container").appendChild(box);
 
@@ -117,6 +128,11 @@
                 );
                 var url = URL.createObjectURL(blob);
                 box.load(url, JSON.parse(editor.getValue()));
+
+                box.addEventListener("save", function(e)
+                {
+                  editor.setValue(JSON.stringify(e.detail, null, 2));
+                });
               });
 
               reader.readAsArrayBuffer(file);
