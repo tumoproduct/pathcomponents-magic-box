@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "bluebird": "^3.4.7",
-    "dear-sir-or-madam": "https://github.com/HaykoKoryun/dear-sir-or-madam.git",
     "polymer": "https://github.com/Polymer/polymer.git#1.9.3"
   },
   "devDependencies": {
