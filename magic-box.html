@@ -40,6 +40,14 @@
     var MagicBox = Polymer
     ({
       is: "magic-box",
+      properties:
+      {
+        readOnly:
+        {
+          type: Boolean,
+          value: false
+        }
+      },
       load: function(file, config)
       {
         var instance = this;
@@ -71,7 +79,8 @@
                 {
                   type: "manifest",
                   manifest: manifest,
-                  data: config
+                  data: config,
+                  readOnly: instance.readOnly
                 },
                 "*"
               );
