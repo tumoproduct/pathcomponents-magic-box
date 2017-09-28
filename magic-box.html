@@ -140,9 +140,22 @@
               assets.push(index);
             }
 
+            var namedAssets = [];
+            for(var index in manifest.namedAssets)
+            {
+              namedAssets.push(index);
+            }
+
             return Promise.each(assets, function(index)
             {
               return initManifestResource(manifest.assets, index, archive);
+            })
+            .then(function()
+            {
+              return Promise.each(namedAssets, function(index)
+              {
+                return initManifestResource(manifest.namedAssets, index, archive);
+              })
             });
           }
 

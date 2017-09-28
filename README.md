@@ -33,12 +33,19 @@ Magic Boxes need to strictly adhere to the following conventions for the package
 - the `manifest` must include a `src` field specifying the main source to load. They will be loaded in the order specified so the `main` script should come last.
 - the `manifest` can include a `css` field. The `css` assets will be loaded before the `src` assets.
 - the `manifest` can include a `libs` field which specifies a list of `js` libraries to use, these will be loaded before the `src` assets.
-- the `manifest` can include an `assets` field which declares all of the other assets that are needed, as a `key`/`value` pair with the `key` being a __unique__ identifier and the value a __relative__ `path` to the asset e.g.
+- the `manifest` can include an `assets` field which declares all other assets that are needed as an indexed `Array`
 ```  
     "assets":
+    [
+  	  "assets/frames/frame-0001.png",
+  	  "assets/frames/frame-0002.png"
+    ]
+```
+- the `manifest` can include a `namedAssets` field which declares all other assets that are needed as `key`/`value` pair with the `key` being a __unique__ identifier and the value a __relative__ `path` to the asset e.g.
+```  
+    "namedAassets":
     {
-  	  "frame-0001": "assets/frames/frame-0001.png",
-  	  "frame-0002": "assets/frames/frame-0002.png"
+  	  "background": "assets/bg.png"
     }
 ```
 

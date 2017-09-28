@@ -126,6 +126,14 @@ fs.readFile("manifest.json", function(err, data)
     }
   }
 
+  if(typeof manifest.namedAssets != "undefined")
+  {
+    for(var i in manifest.namedAssets)
+    {
+      zip.file(manifest.namedAssets[i], fs.readFileSync(manifest.namedAssets[i]));
+    }
+  }
+
   _spinner.succeed();
 
   manifest.libs = [];

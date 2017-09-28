@@ -12,7 +12,7 @@
   [
     "main.css"
   ],
-  "assets":
+  "namedAssets":
   {
     "spinner": "assets/spinner.gif"
   }

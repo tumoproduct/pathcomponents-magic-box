@@ -20,10 +20,11 @@
 	  , "src/maze.js"
     , "main.js"
   ],
-  "assets":
+  "namedAssets":
   {
       "ball": "assets/ball.png"
     , "brick": "assets/brick.png"
     , "concrete": "assets/concrete.png"
-  }
+  },
+  "assets": []
 }
