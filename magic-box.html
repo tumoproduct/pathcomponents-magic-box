@@ -42,10 +42,11 @@
       is: "magic-box",
       properties:
       {
-        readOnly:
+        environment:
         {
-          type: Boolean,
-          value: false
+          type: String,
+          value: 'viewer',
+          reflectToAttribute: true
         }
       },
       load: function(file, config)
@@ -80,7 +81,7 @@
                   type: "manifest",
                   manifest: manifest,
                   data: config,
-                  readOnly: instance.readOnly
+                  environment: instance.environment
                 },
                 "*"
               );

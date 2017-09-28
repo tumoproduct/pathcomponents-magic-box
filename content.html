@@ -87,7 +87,8 @@
             .then(function()
             {
               detail.data = evt.data.data;
-              
+              detail.environment = evt.data.environment
+
               document.dispatchEvent(new CustomEvent("magicbox.init",{detail:detail}));
             });
           }
