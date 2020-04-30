@@ -19,7 +19,7 @@
     "csso": "^3.2.0",
     "draftlog": "^1.0.12",
     "dropzone": "^4.3.0",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "jszip": "^3.1.4",
     "jszip-utils": "^0.0.2",
     "moment": "^2.18.1",
